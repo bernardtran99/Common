@@ -7,11 +7,11 @@ https://www.youtube.com/watch?v=ZwFA3YMfkoc
 
 To Run:
 
-cd chat-app<br>
-cd server<br>
-npm start<br>
-cd ..<br>
-cd client<br>
-npm start<br>
+cd chat-app
+cd server
+npm start
+cd ..
+cd client
+npm start
 
 Note: If there are errors when running npm start, try npm install
