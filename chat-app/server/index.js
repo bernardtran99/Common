@@ -9,19 +9,24 @@ const router = require('./router');
 
 const app = express();
 const server = http.createServer(app);
+
+
 const io = socketio(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "common-client.herokuapp.com",
         methods: ["GET", "POST"],
         credentials: true
     }
 });
 
+
 app.use(cors());
 app.use(router);
 
 io.on('connect', (socket) => {
+  console.log('Socket Connected');
   socket.on('join', ({ name, room }, callback) => {
+    console.log('Joined');
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
@@ -37,6 +42,7 @@ io.on('connect', (socket) => {
   });
 
   socket.on('sendMessage', (message, callback) => {
+    console.log('Sent Message');
     const user = getUser(socket.id);
 
     io.to(user.room).emit('message', { user: user.name, text: message });
@@ -45,6 +51,7 @@ io.on('connect', (socket) => {
   });
 
   socket.on('disconnect', () => {
+    console.log('Disconnected');
     const user = removeUser(socket.id);
 
     if(user) {
